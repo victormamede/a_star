@@ -41,11 +41,8 @@ export default class PathFinder {
     ctx.lineWidth = this.board.squareSize / 4
     ctx.lineCap = 'round'
 
-    ctx.fillStyle = 'rgba(100, 100, 100, 0.2)'
-    this.closed.forEach(node => node.drawBox(deltaTime, ctx))
-
-    ctx.fillStyle = 'rgba(0, 32, 255, 0.2)'
-    this.open.forEach(node => node.drawBox(deltaTime, ctx))
+    this.closed.forEach(node => node.drawBox(deltaTime, ctx, { r: 100, g: 100, b: 100}))
+    this.open.forEach(node => node.drawBox(deltaTime, ctx, { r: 150, g: 0, b: 255 }))
 
     ctx.strokeStyle = 'red'
     ctx.lineWidth = this.board.squareSize / 3
@@ -126,17 +123,6 @@ export default class PathFinder {
       return
     }
 
-    // check if in open list
-    const [inOpenListIndex, inOpenList] = this.inOpenList(newPos)
-    if(inOpenList != null) {
-      if(currentNode.distanceFromStart < inOpenList.distanceFromStart) {
-        this.open.splice(inOpenListIndex, 1)
-      }
-      else {
-        return
-      }
-    }
-
     const newNode = new PathFinderNode(this, newPos)
     newNode.parentNode = currentNode
 
@@ -148,8 +134,19 @@ export default class PathFinder {
     }
 
     distanceFromStart += stepWeight
-
     newNode.distanceFromStart = distanceFromStart
+
+
+    // check if in open list
+    const [inOpenListIndex, inOpenList] = this.inOpenList(newPos)
+    if(inOpenList != null) {
+      if(newNode.distanceFromStart < inOpenList.distanceFromStart) {
+        this.open.splice(inOpenListIndex, 1)
+      }
+      else {
+        return
+      }
+    }
 
     this.open.push(newNode)
     return newNode
@@ -201,17 +198,22 @@ class PathFinderNode {
   }
 
   public calculateF(endPos: Coordinate) {
-    const distanceEstimateSquared = Math.pow(endPos.x - this.pos.x, 2) + Math.pow(endPos.y - this.pos.y, 2)
+    const distanceVector = {
+      x: (endPos.x - this.pos.x),
+      y: (endPos.y - this.pos.y)
+    }
+
+    const distanceEstimateSquared = distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y
     const distanceEstimate = Math.sqrt(distanceEstimateSquared)
-    return distanceEstimate + this.distanceFromStart
+    return this.distanceFromStart + distanceEstimate
   }
 
   public drawLine(deltaTime: number, ctx: CanvasRenderingContext2D) {
     this.lineDrawer.draw(deltaTime, ctx)
   }
 
-  public drawBox(deltaTime: number, ctx: CanvasRenderingContext2D) {
-    this.boxDrawer.draw(deltaTime, ctx)
+  public drawBox(deltaTime: number, ctx: CanvasRenderingContext2D, color: { r: number, g: number, b: number }) {
+    this.boxDrawer.draw(deltaTime, ctx, color)
   }
 }
 
@@ -282,7 +284,7 @@ class PathFinderNodeBoxDrawer {
 
   }
 
-  draw(deltaTime: number, ctx: CanvasRenderingContext2D) {
+  draw(deltaTime: number, ctx: CanvasRenderingContext2D, color: { r: number, g: number, b: number}) {
     const squareSize = this.parent.parent.board.squareSize
     const pos = this.parent.pos
 
@@ -294,7 +296,7 @@ class PathFinderNodeBoxDrawer {
     const fallDownMultiplier = Math.min(1, this.animationFrame / this.fallDownTime)
     const animationMultiplier = this.animationFrame / this.animationTime
 
-    ctx.fillStyle = `rgba(150, 0, 255, ${1.2-animationMultiplier}`
+    ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${1.2-animationMultiplier}`
     ctx.fillRect(
       pos.x * squareSize - ((squareSize/4) * (1-fallDownMultiplier)),
       pos.y * squareSize - ((squareSize/4) * (1-fallDownMultiplier)),

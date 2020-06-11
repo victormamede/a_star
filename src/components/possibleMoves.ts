@@ -52,7 +52,7 @@ export default class PossibleMoves {
             y: y - 1
           }
 
-          const weight = Math.sqrt(Math.pow(pos.x, 2) + Math.pow(pos.y, 1))
+          const weight = Math.sqrt(pos.x * pos.x + pos.y * pos.y)
 
           toReturn.push({
             pos: pos,
@@ -62,6 +62,7 @@ export default class PossibleMoves {
       }
     }
 
+    console.log(toReturn)
     return toReturn
   }
 }

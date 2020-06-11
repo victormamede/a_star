@@ -4,6 +4,7 @@ import Wall from "./nodes/wall"
 import StartPoint from "./nodes/startpoint"
 import EndPoint from "./nodes/endpoint"
 import Water from "./nodes/water"
+import Mud from "./nodes/mud"
 
 
 export default class BoardLogic extends Board {
@@ -18,7 +19,8 @@ export default class BoardLogic extends Board {
       start: { label: 'Start Point', factory: position => new StartPoint(position) },
       end: { label: 'End Point', factory: position => new EndPoint(position) },
       wall: { label: 'Wall', factory: position => new Wall(position) },
-      water: { label: 'Water', factory: position => new Water(position) }
+      water: { label: 'Water', factory: position => new Water(position) },
+      mud: { label: 'Mud', factory: position => new Mud(position) }
     }
 
 

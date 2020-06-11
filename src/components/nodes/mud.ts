@@ -1,17 +1,17 @@
 import { Node } from '../board'
 import { Coordinate } from '../../game'
 
-export default class Water extends Node {
-  type: string = 'water'
+export default class Mud extends Node {
+  type: string = 'mud'
   pos: Coordinate
-  animator: WaterAnimation
+  animator: MudAnimation
 
   constructor(_pos: Coordinate) {
     super()
 
-    this.stepMultiplier = 4
+    this.stepMultiplier = 8
     this.pos = _pos
-    this.animator = new WaterAnimation(this)
+    this.animator = new MudAnimation(this)
   }
 
   public draw(deltaTime: number, ctx: CanvasRenderingContext2D): void {
@@ -19,12 +19,12 @@ export default class Water extends Node {
   }
 }
 
-class WaterAnimation {
+class MudAnimation {
   // Animation
   private animationFrame: number = 0
   private animationTime: number = 100
   
-  constructor(readonly parent: Water) {
+  constructor(readonly parent: Mud) {
     
   }
   
@@ -42,7 +42,7 @@ class WaterAnimation {
     const pos = this.parent.pos
     const squareSize = this.parent.board.squareSize
     
-    ctx.fillStyle = 'rgba(0, 100, 150, 0.6)'
+    ctx.fillStyle = 'rgba(101, 67, 42, 0.8)'
 
     ctx.fillRect(
       pos.x * squareSize - ((squareSize/4) * (1-animationMultiplier)),
