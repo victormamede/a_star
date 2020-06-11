@@ -41,15 +41,22 @@ export default class PossibleMoves {
     console.log(this)
   }
 
-  getDirections(): Coordinate[] {
-    let toReturn: Coordinate[] = []
+  getDirections(): { pos: Coordinate, weight: number }[] {
+    let toReturn: { pos: Coordinate, weight: number }[] = []
 
     for(let x = 0; x < 3; x++) {
       for(let y = 0; y < 3; y++) {
         if(this.directions[y][x]) {
-          toReturn.push({
+          const pos = {
             x: x - 1,
             y: y - 1
+          }
+
+          const weight = Math.sqrt(Math.pow(pos.x, 2) + Math.pow(pos.y, 1))
+
+          toReturn.push({
+            pos: pos,
+            weight: weight
           })
         }
       }
@@ -94,8 +101,8 @@ class PossibleMovesDrawer {
 
     this.parent.getDirections().forEach(direction => {
       const pos = {
-        x: ctx.canvas.width/2 + direction.x * this.parent.squareSize,
-        y: ctx.canvas.height/2 + direction.y * this.parent.squareSize
+        x: ctx.canvas.width/2 + direction.pos.x * this.parent.squareSize,
+        y: ctx.canvas.height/2 + direction.pos.y * this.parent.squareSize
       }
 
       ctx.fillStyle = 'red'

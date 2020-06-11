@@ -105,8 +105,8 @@ export default class PathFinder {
     return null
   }
 
-  private checkDirection(currentNode: PathFinderNode, direction: Coordinate) {
-    const newPos: Coordinate = { x: direction.x + currentNode.pos.x, y: direction.y + currentNode.pos.y }
+  private checkDirection(currentNode: PathFinderNode, direction: { pos: Coordinate, weight: number }) {
+    const newPos: Coordinate = { x: direction.pos.x + currentNode.pos.x, y: direction.pos.y + currentNode.pos.y }
 
     const [currentBoardNodeIndex, currentBoardNode] = this.board.getNode(newPos)
 
@@ -142,12 +142,12 @@ export default class PathFinder {
 
     // calculate distance
     let distanceFromStart = currentNode.distanceFromStart
+    let stepWeight = direction.weight
     if(currentBoardNode != null) {
-      distanceFromStart += currentBoardNode.stepMultiplier
+      stepWeight *= currentBoardNode.stepMultiplier
     }
-    else {
-      distanceFromStart += 1
-    }
+
+    distanceFromStart += stepWeight
 
     newNode.distanceFromStart = distanceFromStart
 
