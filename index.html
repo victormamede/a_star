@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pathfinder</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+  <div class='navbar navbar-dark bg-primary'>
+    <div class='navbar-brand'>
+      <h1>
+        A* Pathfinding
+      </h1>
+      <small class='float-right'>
+        Victor Mamede
+      </small>
+    </div>
+  </div>
+
+  <div class='container my-4'>
+    <div class='float-left m-4' style='width: fit-content'>
+      <div class='border border-primary rounded p-2' style='width: fit-content'>
+        <div class='m-2'>
+          Node to place:
+          <div id="toplace-selector"></div>
+        </div>
+        <div id='speed-selector'></div>
+        <div class='text-center'>
+          Move Directions:
+          <div id='possible-moves-selector'></div>
+        </div>
+      </div>
+      <small>*Left click to place<br>*Right click to delete</small>
+    </div>
+    <div>
+      <canvas id='game-canvas'></canvas>
+    </div>
+  </div>
+
+  <script src="./dist/bundle.js"></script>
+</body>
+</html>
