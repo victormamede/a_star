@@ -22,14 +22,12 @@ export abstract class Node {
 }
 
 export default abstract class Board extends Component {
-  squareSize: number = 32
-
   boardLines: BoardLine[] = []
 
   nodes: Node[] = []
   pathFinder: PathFinder
 
-  constructor(public size: Coordinate) {
+  constructor(public size: Coordinate, readonly squareSize: number) {
     super()
 
     this.addLines()

@@ -11,8 +11,8 @@ export default class BoardLogic extends Board {
   factories: { [key: string]: { label: string, factory: (pos: Coordinate) => Node } }
   currentKey: string = ''
 
-  constructor(_size: Coordinate) {
-    super(_size)
+  constructor(_size: Coordinate, _squareSize: number) {
+    super(_size, _squareSize)
 
 
     this.factories = {

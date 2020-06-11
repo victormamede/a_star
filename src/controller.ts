@@ -6,12 +6,12 @@ export default class Controller {
   lastTime: number = 0
 
   constructor(private ctx: CanvasRenderingContext2D) {
-    const board = new BoardLogic(
-      {x: 26, y: 22}
-    )
+    const squareSize = 32
 
-    ctx.canvas.width = board.size.x * board.squareSize
-    ctx.canvas.height = board.size.y * board.squareSize
+    const board = new BoardLogic(
+      {x: ctx.canvas.width / squareSize, y: ctx.canvas.height / squareSize},
+      squareSize
+    )
 
     ctx.canvas.addEventListener('contextmenu', (e) => { e.preventDefault() })
 
