@@ -69,6 +69,7 @@ export default class BoardLogic extends Board {
         break
       case 2:
         this.removeNode(position)
+        this.pathFinder.start()
         break
     }
   }
